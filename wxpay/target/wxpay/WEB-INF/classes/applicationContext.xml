@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans
+        xmlns="http://www.springframework.org/schema/beans"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns:context="http://www.springframework.org/schema/context"
+        xmlns:jdbc="http://www.springframework.org/schema/jdbc"
+        xmlns:jee="http://www.springframework.org/schema/jee"
+        xmlns:tx="http://www.springframework.org/schema/tx"
+        xmlns:jpa="http://www.springframework.org/schema/data/jpa"
+        xmlns:aop="http://www.springframework.org/schema/aop"
+        xmlns:task="http://www.springframework.org/schema/task"
+        xsi:schemaLocation="
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.1.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.1.xsd
+		http://www.springframework.org/schema/jdbc http://www.springframework.org/schema/jdbc/spring-jdbc-3.1.xsd
+		http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee-3.1.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.1.xsd
+		http://www.springframework.org/schema/data/jpa http://www.springframework.org/schema/data/jpa/spring-jpa.xsd
+		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.1.xsd
+		http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task-3.1.xsd
+		">
+
+    <bean class="luluteam.wxpay.util.SpringContextHolder" lazy-init="false"/>
+
+    <context:component-scan base-package="luluteam.wxpay.controller">
+        <!-- spring 瀹瑰櫒鍔犺浇 渚嬪 controller -->
+        <context:exclude-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
+    </context:component-scan>
+
+
+    <context:property-placeholder location="classpath:mysql.properties" ignore-unresolvable="true" />
+
+    <!-- 鏁版嵁婧愰厤缃紝浣跨敤DBCP杩炴帴姹� -->
+    <bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource"
+          destroy-method="close">
+        <property name="driverClassName" value="${jdbc.driver}" />
+        <property name="url" value="${jdbc.url}" />
+        <property name="username" value="${jdbc.username}" />
+        <property name="password" value="${jdbc.password}" />
+        <property name="maxActive" value="${dbcp.maxActive}" />
+        <property name="maxIdle" value="${dbcp.maxIdle}" />
+        <property name="defaultAutoCommit" value="false" />
+        <property name="timeBetweenEvictionRunsMillis" value="3600000" />
+        <property name="minEvictableIdleTimeMillis" value="3600000" />
+    </bean>
+
+    <!-- 鎸佷箙鍖栧璞″鐞� -->
+    <bean id="persistenceProvider" class="org.hibernate.ejb.HibernatePersistence" />
+
+    <!-- 閰嶇疆jpa閫傞厤鍣� -->
+    <bean id="hibernateJpaVendorAdapter"
+          class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter"></bean>
+
+    <bean id="entityManagerFactory"
+          class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
+        <!-- 娉ㄥ叆鏁版嵁婧� -->
+        <property name="dataSource" ref="dataSource" />
+        <!-- 娉ㄥ叆鎸佷箙鍖栧璞� -->
+        <property name="persistenceProvider" ref="persistenceProvider" />
+        <property name="jpaVendorAdapter" ref="hibernateJpaVendorAdapter" />
+        <property name="packagesToScan" value="luluteam.wxpay.entity" />
+        <property name="jpaProperties">
+            <props>
+                <prop key="hibernate.dialect">${hibernate.dialect}</prop>
+                <prop key="hibernate.max_fetch_depth">3</prop>
+                <prop key="hibernate.jdbc.fetch_size">18</prop>
+                <prop key="hibernate.jdbc.batch_size">10</prop>
+                <prop key="hibernate.show_sql">true</prop>
+                <prop key="hibernate.format_sql">false</prop>
+            </props>
+        </property>
+    </bean>
+
+    <!-- jpa閰嶇疆浜嬪姟 -->
+    <bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
+        <property name="entityManagerFactory" ref="entityManagerFactory" />
+    </bean>
+
+    <!-- Spring Data Jpa閰嶇疆 -->
+    <jpa:repositories base-package="luluteam.wxpay.dao"
+                      entity-manager-factory-ref="entityManagerFactory"
+                      transaction-manager-ref="transactionManager" repository-impl-postfix="Impl">
+    </jpa:repositories>
+
+    <tx:advice id="txAdvice" transaction-manager="transactionManager">
+        <tx:attributes>
+            <tx:method name="save*" propagation="REQUIRED" rollback-for="exception" />
+            <tx:method name="add*" propagation="REQUIRED" rollback-for="exception" />
+            <tx:method name="del*" propagation="REQUIRED" rollback-for="exception" />
+            <tx:method name="insert*" propagation="REQUIRED" rollback-for="exception" />
+            <tx:method name="update*" propagation="REQUIRED" rollback-for="exception" />
+            <tx:method name="modify*" propagation="REQUIRED" rollback-for="exception" />
+            <tx:method name="*" read-only="true" />
+        </tx:attributes>
+    </tx:advice>
+    <aop:config>
+        <aop:advisor advice-ref="txAdvice"
+                     pointcut="execution(* luluteam.wxpay.service..*.*(..))" />
+    </aop:config>
+
+</beans>

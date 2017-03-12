@@ -1,0 +1,13 @@
+<component name="libraryTable">
+  <library name="Maven: org.infinispan:infinispan-lucene-directory:5.1.4.FINAL">
+    <CLASSES>
+      <root url="jar://$MAVEN_REPOSITORY$/org/infinispan/infinispan-lucene-directory/5.1.4.FINAL/infinispan-lucene-directory-5.1.4.FINAL.jar!/" />
+    </CLASSES>
+    <JAVADOC>
+      <root url="jar://$MAVEN_REPOSITORY$/org/infinispan/infinispan-lucene-directory/5.1.4.FINAL/infinispan-lucene-directory-5.1.4.FINAL-javadoc.jar!/" />
+    </JAVADOC>
+    <SOURCES>
+      <root url="jar://$MAVEN_REPOSITORY$/org/infinispan/infinispan-lucene-directory/5.1.4.FINAL/infinispan-lucene-directory-5.1.4.FINAL-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

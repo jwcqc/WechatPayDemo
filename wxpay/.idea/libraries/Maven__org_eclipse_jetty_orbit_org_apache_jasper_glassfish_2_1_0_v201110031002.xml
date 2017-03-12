@@ -1,0 +1,13 @@
+<component name="libraryTable">
+  <library name="Maven: org.eclipse.jetty.orbit:org.apache.jasper.glassfish:2.1.0.v201110031002">
+    <CLASSES>
+      <root url="jar://$MAVEN_REPOSITORY$/org/eclipse/jetty/orbit/org.apache.jasper.glassfish/2.1.0.v201110031002/org.apache.jasper.glassfish-2.1.0.v201110031002.jar!/" />
+    </CLASSES>
+    <JAVADOC>
+      <root url="jar://$MAVEN_REPOSITORY$/org/eclipse/jetty/orbit/org.apache.jasper.glassfish/2.1.0.v201110031002/org.apache.jasper.glassfish-2.1.0.v201110031002-javadoc.jar!/" />
+    </JAVADOC>
+    <SOURCES>
+      <root url="jar://$MAVEN_REPOSITORY$/org/eclipse/jetty/orbit/org.apache.jasper.glassfish/2.1.0.v201110031002/org.apache.jasper.glassfish-2.1.0.v201110031002-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>
