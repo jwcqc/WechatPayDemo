@@ -1,0 +1,33 @@
+<view class="container">
+  <view class="header">
+    <image class="plus" src="/images/plus.png"/>
+    <input class="new-todo" value="{{ input }}" placeholder="添加事项..." auto-focus bindinput="inputChangeHandle" bindchange="addTodoHandle"/>
+  </view>
+  <block wx:if="{{ todos.length }}">
+    <view class="todos">
+      <!-- List items should get the class `completed` when marked as completed -->
+      <view class="item{{ item.completed ? ' completed' : '' }}" wx:for="{{ todos }}" wx:key="{{ index }}" bindtap="toggleTodoHandle" data-index="{{ index }}">
+        <!-- completed: success, todo: circle -->
+        <icon class="checkbox" type="{{ item.completed ? 'success' : 'circle' }}"/>
+        <text class="name">{{ item.name }}</text>
+        <icon class="remove" type="clear" size="16" catchtap="removeTodoHandle" data-index="{{ index }}"/>
+      </view>
+    </view>
+    <view class="footer">
+      <text class="btn" bindtap="toggleAllHandle">切换所有</text>
+      <text wx:if="{{ leftCount }}">剩余 {{ leftCount }} 件事 </text>
+      <text class="btn" bindtap="clearCompletedHandle">清空已完成</text>
+    </view>
+  </block>
+  <block wx:else>
+    <view class="empty">
+      <text class="title"></text>
+      <text class="content">没有代办事项</text>
+    </view>
+  </block>
+  <block>
+    <view class="dashang">
+      <button size="mini" bindtap="wxPay">打赏{{ price }}元</button>
+    </view>
+  </block>
+</view>
