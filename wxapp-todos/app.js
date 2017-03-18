@@ -1,8 +1,8 @@
 App({
   globalData:{
     // userInfo:null,      
-    appId: 'wx9645bd0c15353232',
-    key: 'abcdefghijklmnopqrstuvwxyzabcdef'   //AppSecret
+    appId: 'xxx',
+    key: 'xxx'   //AppSecret
   },
   onLaunch: function() {
 
